@@ -1,0 +1,9 @@
+1. Paki ZIP lahti.
+2. Ava Projektijuhtimine.sln.
+3. Pane Projektijuhtimine.WebAPI Startup Project-iks.
+4. Build > Build Solution.
+5. Kui LocalDB puudub, tuleb paigaldada SQL Server Express LocalDB või muuta connection stringi appsettings.json failis.
+6. Käivita programm. Andmebaas ja vähemalt 35 rida igasse tabelisse lisatakse automaatselt.
+7. API: /swagger, /api/projects, /api/users, /api/tasks.
+
+Märkus: see on iseseisev stardilahendus loodud sinu üleslaetud klassiskeemi põhjal. Algne ZIP ei sisaldanud sinu olemasolevat rakenduse solution'i, seega see ei ole võimalik sinu varasema projekti täpne jätk. Build tuleb kontrollida Visual Studios.

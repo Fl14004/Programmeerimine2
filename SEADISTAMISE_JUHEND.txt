@@ -1,0 +1,37 @@
+PROJEKTI ANDMEBAASI SEADISTAMINE
+
+TÄHTIS: ZIP-is olnud failid sisaldasid ainult Data klasside osa, mitte tervet Visual Studio solution'it. Seetõttu on ApplicationDbContext.cs ja SeedData.cs ettevalmistatud lisafailid; enne kasutamist kontrolli neid enda projekti olemasoleva DbContext'i ja EF Core'i versiooniga.
+
+1. Kopeeri ApplicationDbContext.cs ja SeedData.cs Projektijuhtimine.Application projekti juurkausta (või kohanda namespace vastavalt oma projektile).
+2. Kontrolli, et Application projektis oleks EF Core'i paketid ja SQL Serveri provider. WebAPI projektis peab olema sama EF Core'i versioon.
+3. WebAPI appsettings.json peab sisaldama ConnectionStrings:DefaultConnection ühendust sinu SQL Serveri andmebaasiga.
+4. WebAPI Program.cs registreeri context (kasuta oma olemasolevat connection stringi):
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+5. Enne app.Run() lisa algandmete käivitamine:
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await SeedData.InitializeAsync(db);
+}
+
+Vajalikud using-käsud WebAPI Program.cs failis:
+using Microsoft.EntityFrameworkCore;
+using Projektijuhtimine.Application;
+
+6. Visual Studio Package Manager Console'is vali Application projekt ning käivita:
+Add-Migration InitialCreate -Project Projektijuhtimine.Application -StartupProject KooliProjekt.WebAPI
+Update-Database -Project Projektijuhtimine.Application -StartupProject KooliProjekt.WebAPI
+
+Asenda KooliProjekt.WebAPI enda tegeliku WebAPI projekti nimega, kui see on erinev. Kui migratsioon on juba olemas, ära loo sama InitialCreate migratsiooni uuesti; kasuta uut nime.
+
+7. Build Solution, käivita WebAPI ning kontrolli SQL Server Object Exploreris tabeleid ja ridade arvu.
+8. GitHubi: commit ja push.
+
+SEEDANDMETE ARV:
+Users 35, Projects 35, ProjectMembers 70, Tasks 70, WorkLogs 70, Attachments 35.
+
+TURVALISUS: Password väärtused on ainult näidisväärtused, mitte päris turvalised paroolid. Päris rakenduses tuleb salvestada parooli räsi, mitte lihttekst.
