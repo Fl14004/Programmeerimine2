@@ -1,0 +1,3 @@
+using System.ComponentModel.DataAnnotations;
+namespace Projektijuhtimine.Application.Data;
+public class ProjectTask { public int Id { get; set; } public int ProjectId { get; set; } public Project? Project { get; set; } [Required, StringLength(200)] public string Title { get; set; } = string.Empty; public DateTime StartDate { get; set; } public decimal EstimatedHours { get; set; } public decimal? FixedPrice { get; set; } public int ResponsibleUserId { get; set; } public User? ResponsibleUser { get; set; } public string Description { get; set; } = string.Empty; public bool IsCompleted { get; set; } public ICollection<WorkLog> WorkLogs { get; set; } = new List<WorkLog>(); public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>(); }

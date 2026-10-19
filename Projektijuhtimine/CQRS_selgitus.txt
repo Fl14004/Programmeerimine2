@@ -1,0 +1,3 @@
+CQRS tähendab, et andmete lugemine ja muutmine on eraldi. Selles ülesandes Get...Query küsib ühe kirje ID järgi ja List...Query küsib kõik kirjed. Handler täidab päringu EF Core abil. Kontroller saadab query Mediatori kaudu. Kui ID <= 0 või Get-handler ei leia kirjet (null), tagastab kontroller NotFound().
+
+Testimine: ava Swagger, proovi näiteks GET /api/Projects/list ja GET /api/Projects/get/1. Proovi ka GET /api/Projects/get/999999 ja GET /api/Projects/get/0. Breakpoint pane kontrolleri `if (id <= 0)` reale ja pärast `_mediator.Send(...)` rida.
